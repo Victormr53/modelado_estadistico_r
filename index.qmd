@@ -106,7 +106,7 @@ sjPlot::view_df(tilapias, show.frq = T, show.prc = T, show.na = T)
 
 ```
 
-2.  Ahora, para determinar si hay un efecto significativo de nuestros dos factores (densidad y estación), podemos utilizar un ANOVA de dos vías:
+2.  Ahora, para determinar si hay un efecto significativo de nuestros dos factores (densidad y estación) en el crecimiento de las tilapias, podemos utilizar un ANOVA de dos vías:
 
 ```{r tilapias_ANOVA}
 #| code-fold: true
@@ -138,7 +138,7 @@ El ANOVA (`fórmula aumento ~ densidad * estación`) sugiere que:
 
 -   La interacción entre ***densidad y estación*** es estadísticamente significativa y grande (F(2, 48) = 16.20, p \< .001; Eta2 (partial) = 0.40, 95% CI \[0.22, 1.00\]).
 
-El siguiente gráfico se realizó para ejemplificar la diferencia de medias (comparasiones múltiples ajustada con corrección de *Holm*) :
+El siguiente gráfico se realizó para ejemplificar la diferencia de medias (comparaciones múltiples ajustada con corrección de *Holm*) :
 
 ```{r til_graficos_posthoc}
 #| code-fold: true
@@ -295,7 +295,9 @@ performance::check_model(aov_peces_estacion, check = c("normality", "qq", "linea
 
 Si analizamos cada factor por separado, solo podemos concluir sobre el efecto individual de cada variable predictora, sin considerar una interacción entre estas variables. Es decir, no podríamos modelar correctamente si la densidad influye sobre el crecimiento de las tilapias dependiendo de la estación del año (o viceversa).
 
-Nuestro diseño experimental sugiere que tanto la densidad como la estación podrían interaccionar en su efecto sobre el crecimiento de las tilapias. En este caso, el ANOVA de dos vías permite evaluar tanto los efectos principales de cada factor como su interacción. Este análisis permite comprender mejor el fenómeno y puede servir mejor en la practica (por ejemplo, para gestionar la crianza de tilapias en diferentes condiciones).
+Nuestro diseño experimental sugiere que tanto la densidad como la estación podrían interaccionar en su efecto sobre el crecimiento de las tilapias. En este caso, el ANOVA de dos vías permite evaluar tanto los efectos principales de cada factor como su interacción. Este análisis permite comprender mejor el fenómeno y puede servir mejor en la práctica (por ejemplo, para gestionar la crianza de tilapias en diferentes condiciones).
+
+Y debido a que los suspuestos del modelo con interacción fueron cumplidos de manera más satisfactoria a comparación de los modelos sin interacción podemos afirmar que el primer modelo es una mejor aproximación a lo que en realidad ocurre cuando los dos factores (densidad y estación) interactúan afectando el crecimiento de las tilapias. Por lo tanto, si se desea realizar una predicción sobre el crecimiento y la producción de tilapias aconsejamos utilizar el primer modelo con interacción por ser el más completo.
 
 ::: {.callout-note collapse="true"}
 ### Con Dummy variables
@@ -382,13 +384,13 @@ sjPlot::tab_model(lm_produccion_2009,
                   )
 ```
 
-Ajustamos un modelo lineal (estimado usando OLS) para predecir la producción produccion de 2009 a partir de las hectáreas de maíz (fórmula: produccion_2009 \~ ha_maiz). El modelo explica una proporción de varianza estadísticamente significativa y sustancial (R2 = 0.57, F(1, 80) = 107.79, p \< .001, R2 ajustado = 0.57).
+Ajustamos un modelo lineal (estimado usando OLS) para predecir la producción (produccion_2009) a partir de las hectáreas de maíz (fórmula: produccion_2009 \~ ha_maiz). El modelo explica una proporción de varianza estadísticamente significativa y sustancial (R2 = 0.57, F(1, 80) = 107.79, p \< .001, R2 ajustado = 0.57).
 
 -   El intercepto del modelo, correspondiente a ha_maiz = 0, está en 3.41 (IC del 95% \[-1070.72, 1077.53\], t(80) = 6.31e-03, p = 0.995).
 
 Dentro de este modelo:
 
--   El efecto de ha maiz es estadísticamente significativo y positivo (beta = 1969.97, IC del 95% \[1592.37, 2347.57\], t(80) = 10.38, p \< .001; beta estandarizada = 0.76, IC del 95% \[0.61, 0.90\])
+-   El efecto de ha_maiz es estadísticamente significativo y positivo (beta = 1969.97, IC del 95% \[1592.37, 2347.57\], t(80) = 10.38, p \< .001; beta estandarizada = 0.76, IC del 95% \[0.61, 0.90\])
 
 Los parámetros estandarizados se obtuvieron ajustando el modelo en una versión estandarizada del conjunto de datos. Los intervalos de confianza del 95% (IC) y los *p-values* se calcularon utilizando una aproximación de la distribución t de Wald.
 
@@ -627,9 +629,9 @@ En comparación con @fig-linealA, la transformación log (@fig-linealB):
 
 -   ganado queda igual
 
--   ver si dist mejora raiz/cuadrada o elevar al cuadrado / estandarizar (rescalar) / quitar outliers
+-   ver si dist mejora raíz/cuadrada o elevar al cuadrado / estandarizar (rescalar) / quitar outliers
 
--   ver si dist_parche_grande mejora mejora raiz/cuadrada o elevar al cuadrado / estandarizar (rescalar) / quitar outliers
+-   ver si dist_parche_grande mejora mejora raíz/cuadrada o elevar al cuadrado / estandarizar (rescalar) / quitar outliers
 
 ```{r}
 #| code-fold: true
@@ -1255,7 +1257,7 @@ plot(compare_performance(forward_optimo.2, lm_interaccion_optimo))
 
 ### Comparar modelos
 
-> Compara los resultados obtenidos con los diferentes métodos de selección de modelos. ¿A qué conclusión llegamos que conteste la pregunta principal de investigación.
+> Compara los resultados obtenidos con los diferentes métodos de selección de modelos. ¿A qué conclusión llegamos que conteste la pregunta principal de investigación?
 
 La principal diferencia entre los dos modelos lineales (obtenido por método forward/backward y nuestro modelado) es la inclusión de un término de interacción en el segundo modelo.
 
@@ -1271,7 +1273,7 @@ Este modelo también incluye una interacción entre **`ganado`** y **`area`**. E
 
 -   **Término de interacción**: El coeficiente de **`ganado:area`** indica cuánto cambia el efecto de **`ganado`** sobre la abundancia por cada unidad de incremento en **`area`**, y viceversa. Si este coeficiente es significativamente diferente de cero, implica que el efecto de una variable sobre la abundancia de aves depende del nivel de la otra variable.
 
-Si bien, al comparar las métricas de ambos modelos (AIC, R\^2) no hay mucha diferencia, podemos pensar que el modelo con interacción nos es útil si creemos que la relación entre las variables predictoras y la respuesta no es simplemente aditiva, sino que una variable podría modificar el efecto de la otra. Podría ser que el efecto del ganado sobre la abundancia de aves sea más pronunciado en áreas más grandes o más pequeñas, lo cual no podría captarse en el primer modelo.. Además, la significancia estadística del término de interacción nos sugiere que es necesario incluirla en nuestro modelo.
+Si bien, al comparar las métricas de ambos modelos (AIC, R\^2) no hay mucha diferencia, podemos pensar que el modelo con interacción nos es útil si creemos que la relación entre las variables predictoras y la respuesta no es simplemente aditiva, sino que una variable podría modificar el efecto de la otra. Podría ser que el efecto del ganado sobre la abundancia de aves sea más pronunciado en áreas más grandes o más pequeñas, lo cual no podría captarse en el primer modelo. Además, la significancia estadística del término de interacción nos sugiere que es necesario incluirla en nuestro modelo.
 
 Podemos ver la diferencia de los estimados en nuestros dos modelos de la siguiente manera (abundancia 2 en rojo corresponde al modelo con interacción, abundancia 1 en azul al modelo sin interacción):
 
